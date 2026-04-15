@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bug Hunt Bingo - Cards</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .page-header h1 {
+      font-size: 28px;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+    }
+
+    .page-header p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .bingo-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      page-break-inside: avoid;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .card-header h2 {
+      font-size: 20px;
+      color: #1a1a2e;
+      letter-spacing: 6px;
+    }
+
+    .card-header .card-id {
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .bingo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .bingo-cell {
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 12px 8px;
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.4;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      transition: background 0.15s;
+    }
+
+    .bingo-cell:hover {
+      background: #f0f0ff;
+    }
+
+    .bingo-cell.center {
+      background: #1a1a2e;
+      color: white;
+      border-color: #1a1a2e;
+      font-weight: 600;
+    }
+
+    .instructions {
+      max-width: 900px;
+      margin: 30px auto 0;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .instructions h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #1a1a2e;
+    }
+
+    .instructions ul {
+      margin-left: 20px;
+      color: #555;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .page-header {
+        margin-bottom: 15px;
+      }
+
+      .cards-grid {
+        gap: 20px;
+      }
+
+      .bingo-card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        padding: 15px;
+      }
+
+      .bingo-cell {
+        min-height: 70px;
+        font-size: 11px;
+        padding: 8px 6px;
+      }
+
+      .bingo-cell.center {
+        background: #333 !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .instructions {
+        page-break-before: always;
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+
+      .no-print {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <h1>BUG HUNT BINGO</h1>
+    <p>Find and fix bugs to complete a row, column, or diagonal!</p>
+    <p class="no-print" style="margin-top: 10px; font-size: 13px; color: #999;">
+      Print this page (Ctrl/Cmd+P) for paper cards. Cut along card borders.
+    </p>
+  </div>
+
+  <div class="cards-grid" id="cards"></div>
+
+  <div class="instructions">
+    <h3>How to Play</h3>
+    <ul>
+      <li>Each team gets one bingo card and access to the buggy calculator app</li>
+      <li>Run the app: <code>npm run dev</code></li>
+      <li>Find and fix bugs in the codebase. Each bug you fix can mark off a matching square</li>
+      <li>Each bug can only be used for ONE square (choose wisely!)</li>
+      <li>First team to complete a row, column, or diagonal wins!</li>
+      <li>Mark squares with a pen or highlighter as you complete them</li>
+    </ul>
+
+    <h3 style="margin-top: 16px;">Square Rules</h3>
+    <ul>
+      <li><strong>Fix a bug using Grep</strong> - Show that you used a search tool (grep, Ctrl+F, Claude's search) to locate the bug</li>
+      <li><strong>Fix a bug + add a test</strong> - Write a test that would have caught this bug</li>
+      <li><strong>Explain a bug to another team</strong> - Walk over and explain it clearly (they confirm understanding)</li>
+      <li><strong>Fix a bug in under 90 seconds</strong> - Timed by a teammate from discovery to working fix</li>
+      <li><strong>Use Claude to suggest a fix</strong> - Ask Claude Code and apply its suggestion</li>
+      <li><strong>Find a bug by reading a stack trace</strong> - The bug produces a runtime error, NaN, or Infinity that leads you to the cause</li>
+      <li><strong>Fix a typo or syntax bug</strong> - A bug caused by a misspelling or syntax mistake</li>
+      <li><strong>Fix a logic bug</strong> - A bug in program logic (not just a typo)</li>
+      <li><strong>Prevent a bug with input validation</strong> - The fix involves adding a validation check</li>
+      <li><strong>Find a bug without running the app</strong> - Spot it by reading code alone, before testing</li>
+      <li><strong>Fix a bug in a utility function</strong> - The bug is in the utils/ directory</li>
+      <li><strong>Fix two bugs in the same file</strong> - Find and fix two different bugs in one file</li>
+      <li><strong>Find a bug that causes NaN</strong> - The bug makes the display show NaN</li>
+      <li><strong>Pair-fix with another team</strong> - Collaborate with someone from a different team to fix it</li>
+    </ul>
+  </div>
+
+  <script>
+    const squares = {
+      1:  "Fix a bug using Grep to find it",
+      2:  "Fix a bug + write a test for it",
+      3:  "Explain a bug to another team",
+      4:  "Fix a bug in under 90 seconds",
+      5:  "Use Claude to suggest a fix",
+      6:  "Find a bug by reading a stack trace",
+      7:  "Fix a typo or syntax bug",
+      8:  "Fix a logic bug (not just a typo)",
+      9:  "Prevent a bug with input validation",
+      10: "Find a bug without running the app",
+      11: "Fix a bug in a utility function",
+      12: "Fix two bugs in the same file",
+      13: "Find a bug that causes NaN",
+      14: "Pair-fix a bug with another team",
+    };
+
+    // 6 card layouts. Center (index 4) is always square 8 ("Fix a logic bug").
+    // Each array has 9 entries; index 4 is the center square.
+    const layouts = {
+      A: [1, 3, 9, 7, 8, 5, 2, 6, 12],
+      B: [5, 7, 11, 4, 8, 1, 13, 3, 9],
+      C: [6, 9, 3, 11, 8, 4, 1, 14, 2],
+      D: [13, 1, 4, 9, 8, 3, 5, 11, 10],
+      E: [2, 14, 1, 7, 8, 13, 9, 5, 11],
+      F: [10, 5, 3, 12, 8, 6, 4, 9, 14],
+    };
+
+    const container = document.getElementById('cards');
+
+    Object.entries(layouts).forEach(([letter, layout]) => {
+      const card = document.createElement('div');
+      card.className = 'bingo-card';
+      card.innerHTML = `
+        <div class="card-header">
+          <h2>B I N G O</h2>
+          <div class="card-id">Card ${letter}</div>
+        </div>
+        <div class="bingo-grid">
+          ${layout.map((id, i) => `
+            <div class="bingo-cell${i === 4 ? ' center' : ''}">
+              ${squares[id]}
+            </div>
+          `).join('')}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>
