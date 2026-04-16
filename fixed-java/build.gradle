@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'bughuntbingo'
+version = '1.0'
+sourceCompatibility = '11'
+
+application {
+    mainClass = 'bughuntbingo.CalculatorApp'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'bughuntbingo.CalculatorApp'
+    }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
