@@ -31,15 +31,12 @@ class CalculatorModel {
             waitingForOperand = false
             return
         }
-        // BUG 9: Multiple decimal points allowed (missing: guard !display.contains("."))
         display = display + "."
     }
 
     func handleOperator(_ nextOperator: String) {
         let current = Double(display) ?? 0
 
-        // BUG 10: Chained operations lose intermediate result
-        // Should evaluate pending operation first, but just overwrites previousOperand
         previousOperand = current
 
         currentOperator = nextOperator
@@ -80,7 +77,6 @@ class CalculatorModel {
     func handleClear() {
         display = "0"
         previousOperand = nil
-        // BUG 2: Clear doesn't reset the operator (missing: currentOperator = nil)
         waitingForOperand = false
         expression = ""
     }
@@ -88,7 +84,6 @@ class CalculatorModel {
     func handleBackspace() {
         if waitingForOperand || display == "Error" { return }
         let result = String(display.dropLast())
-        // BUG 8: Backspace on single digit leaves display empty (missing: empty string guard)
         display = result
     }
 
@@ -107,7 +102,6 @@ class CalculatorModel {
     }
 
     func handleMemoryRecall() {
-        // BUG 6: Shows literal string "memory" instead of the memory value
         display = "memory"
         waitingForOperand = false
     }

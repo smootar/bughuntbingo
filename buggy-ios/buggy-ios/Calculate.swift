@@ -16,12 +16,10 @@ func evaluate(_ a: Double, _ op: String, _ b: Double) -> Double? {
     case "+":
         return a + b
     case "-":
-        // BUG 1: Subtraction performs addition
         return a + b
     case "*":
         return a * b
     case "/":
-        // BUG 4: No division-by-zero guard (missing: if b == 0 { return nil })
         return a / b
     default:
         return nil
@@ -32,6 +30,5 @@ func evaluate(_ a: Double, _ op: String, _ b: Double) -> Double? {
 /// - Parameter value: The number to convert to a percentage
 /// - Returns: The percentage result
 func percent(_ value: Double) -> Double {
-    // BUG 5: Divides by 10 instead of 100
     return value / 10
 }

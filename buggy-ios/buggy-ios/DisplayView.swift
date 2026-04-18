@@ -16,8 +16,6 @@ struct DisplayView: View {
                 .foregroundColor(Color(red: 0.53, green: 0.57, blue: 0.69))
                 .frame(maxWidth: .infinity, alignment: .trailing)
 
-            // BUG 3: Uses .caption font instead of the large display font
-            // Should be .system(size: 36, weight: .semibold, design: .monospaced)
             Text(formatDisplay(value))
                 .font(.caption)
                 .foregroundColor(Color(red: 0.90, green: 0.90, blue: 0.90))
