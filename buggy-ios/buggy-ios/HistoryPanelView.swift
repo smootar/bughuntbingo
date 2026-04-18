@@ -23,8 +23,6 @@ struct HistoryPanelView: View {
                             .foregroundColor(Color(red: 0.29, green: 0.33, blue: 0.41))
                             .italic()
                     }
-                    // BUG 7: History shows oldest first instead of newest first
-                    // Should be: ForEach(Array(history.reversed().enumerated()), ...)
                     ForEach(Array(history.enumerated()), id: \.offset) { _, entry in
                         Text(entry)
                             .font(.system(size: 13, design: .monospaced))
